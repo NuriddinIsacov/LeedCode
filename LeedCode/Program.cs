@@ -9,12 +9,227 @@ namespace LeedCode
     {
         static void Main(string[] args) 
         {
-            string[] strs = { "ab", "a" };
-            Console.WriteLine(LongestCommonPrefix(strs));
 
+            int i = 2;
+            Console.WriteLine(i % 3 == 0 && i % 5 == 0);
         }
 
 
+        public static string ReverseVowels(string s)
+        {
+            char[] charArray = s.ToCharArray();
+            int left = 0;
+            int right = s.Length - 1;
+
+            while (left < right)
+            {
+                if((s[left] == 'a' || s[left] == 'u' || s[left] == 'e' || s[left] == 'o' || s[left] == 'i') && (s[right] == 'a' || s[right] == 'u' || s[right] == 'e' || s[right] == 'o' || s[right] == 'i'))
+                {
+                    char c = s[left];
+
+                    c = charArray[left];
+                    charArray[left] = charArray[right];
+                    charArray[right] = c;
+
+                    left++;
+                    right--;
+                }
+
+                if ((s[left] == 'a' || s[left] == 'u' || s[left] == 'e' || s[left] == 'o' || s[left] == 'i') && !(s[right] == 'a' || s[right] == 'u' || s[right] == 'e' || s[right] == 'o' || s[right] == 'i'))
+                    left++;
+
+                if(!(s[left] == 'a' || s[left] == 'u' || s[left] == 'e' || s[left] == 'o' || s[left] == 'i') && (s[right] == 'a' || s[right] == 'u' || s[right] == 'e' || s[right] == 'o' || s[right] == 'i'))
+                    right--;
+            }
+
+            return charArray.ToString();
+        }
+
+
+
+
+        public static void ReverseString(char[] s)
+        {
+            int left = 0;
+            int right = s.Length - 1;
+
+            while(left < right)
+            {
+                char c = s[left];
+                c = s[left];
+                s[left] = s[right];
+                s[right] = c;
+
+                left++;
+                right--;
+            }
+        }
+        public static int MajorityElement(int[] nums)
+        {
+            Array.Sort(nums);
+
+            return nums[nums.Length / 2];
+        }
+        public static IList<string> FizzBuzz(int n)
+        {
+            var list = new List<string>();
+
+            for (int i = 0; i < n; i++)
+            {
+                if(!(i % 3 == 0 || i % 5 == 0))
+                    list.Add(i.ToString());
+
+                if (i % 3 == 0 && i % 5 == 0)
+                    list.Add("FizzBuzz");
+                else
+                {
+                    if(i % 3 == 0)
+                        list.Add("Fizz");
+                    else
+                    {
+                        if (i % 5 == 0)
+                            list.Add("Buzz");
+                        else
+                        {
+                            list.Add(i.ToString());
+                        }
+                    }
+                }
+
+
+            }
+
+            return list;
+        }
+        public static string ToLowerCase(string s)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach (char c in s)
+            {
+                if (((byte)c) >= 65 && ((byte)c) <= 90)
+                    sb.Append(((char)(((byte)c)+32)));
+                else
+                    sb.Append(c);
+
+                c.GetHashCode();
+            }
+
+            return sb.ToString();
+        }
+        public static double FindMedianSortedArrays(int[] nums1, int[] nums2)
+        {
+            double result = 0;
+
+            List<int> list = new List<int>();
+
+            foreach (int num in nums1)
+            {
+                list.Add(num);
+            }
+
+            foreach (int num in nums2)
+            {
+                list.Add(num);
+            }
+
+            list.Sort();
+
+            if (list.Count % 2 == 0)
+            {
+                int index1 = list.Count / 2;
+                int index2 = index1 + 1;
+
+                result = ((double)list[index1] + (double)list[index2]) / 2;
+
+            }
+
+            if (list.Count % 2 == 1)
+            {
+                int index = list.Count / 2;
+
+                result = list[index];
+            }
+
+            return result;
+        }
+        public static int HammingWeight(uint n)
+        {
+            int sum = 0;
+           
+            var number = n.ToString().ToCharArray().ToList();
+
+            while(number.Contains('1'))
+            {
+                sum++;
+                int index = number.IndexOf('1');
+                number[index] = '0';
+            }
+            return sum;
+        }
+        public static IList<IList<int>> Generate(int numRows)
+        {
+            List<IList<int>> result = new List<IList<int>>
+            {
+                new List<int>{1},
+                new List<int>{1, 1},
+            };
+
+
+            IList<int> list1 = new List<int> { 1, 1 };
+            IList<int> list2 = new List<int>();
+            for (int j = 2; j < numRows; j++)
+            {
+
+                int i = 0;
+                list2.Add(1);
+                while(i <= list1.Count / 2)
+                {
+                    list2.Add(list1[i] + list1[i + 1]);
+                }
+                list2.Add(1);
+
+                result.Add(list2);
+                list1 = list2;
+            }
+
+            return result;
+        }
+        public static int MissingNumber(int[] nums)
+        {
+            int result = nums.Length;
+
+            for (int i = 0; i < nums.Length; i++)
+            {
+                bool check = nums.ToList().Contains(i);
+                if (!check)
+                {
+                    result = i;
+                    break;
+                }
+                
+            }
+
+            return result;
+        } 
+        public static int SingleNumber(int[] nums)
+        {
+            int target = 0;
+            for (int i = 0; i < nums.Length; i++)
+            {
+                target = nums[i];
+                var numsList = nums.ToList();
+
+                numsList.Remove(target);
+                if (!numsList.Contains(target))
+                {
+                    break;
+                }
+                
+            }
+            return target;
+
+        }
         public static string LongestCommonPrefix(string[] strs)
         {
             if (strs.Length == 1)
@@ -23,6 +238,7 @@ namespace LeedCode
             }
 
             string result = string.Empty;
+            string answer = string.Empty;
             string prefix = strs[0];
             bool check = true;
             List<string> list = new List<string>();
@@ -50,6 +266,10 @@ namespace LeedCode
                 }
                 else
                 {
+                    if (answer.Length < result.Length)
+                    {
+                        answer = result;
+                    }
                     list.Add(result);
                     result = string.Empty;
                 }
@@ -57,19 +277,11 @@ namespace LeedCode
                 check = true;
             }
 
-            string answer = string.Empty;
 
-            foreach (var item in list)
-            {
-                if (item.Length > answer.Length)
-                {
-                    answer = item;
-                }
-            }
+          
 
             return answer;
         }
-
         public static string WordPattern(string pattern, string s)
         {
             bool result = false;
@@ -91,7 +303,6 @@ namespace LeedCode
 
             return satr;
         }
-
         public static IList<IList<int>> ThreeSum(int[] nums)
         {
             var list = new List<IList<int>>();
@@ -131,7 +342,6 @@ namespace LeedCode
 
             return list;
         }
-
         public static IList<IList<int>> ThreeSumOne(int[] nums)
         {
             var list = new List<IList<int>>();
@@ -177,17 +387,14 @@ namespace LeedCode
 
             return list;
         }
-
         public static string AddBinary(string a, string b)
         {
             return "bla bla bla bla 🤪";
         }
-
         public static int MySqrt(int x)
         {
             return (int)Math.Floor(Math.Sqrt(x));
         }
-
         public static int RemoveElement(int[] nums, int val)
         {
             int counter = 0;
@@ -205,7 +412,6 @@ namespace LeedCode
 
             return nums.Length - counter;
         }
-
         public static int[] TwoSum(int[] nums, int target)
         {
             for (int i = 0; i < nums.Length; i++)
@@ -221,7 +427,6 @@ namespace LeedCode
             }
             return null;
         }
-
         public static int Reverse(int x)
         {
             bool check = false;
@@ -251,7 +456,6 @@ namespace LeedCode
             int result = (int)m;
             return result;
         }
-
         public static int LengthOfLastWord(string s)
         {
             s = s.Trim();
@@ -260,7 +464,6 @@ namespace LeedCode
             
 
         }
-
         public static int ClimbStairs(int n)
         {
             var nums = new int[n];
@@ -280,29 +483,6 @@ namespace LeedCode
             }
             return 0;
         }
-
-        public static int MajorityElement(int[] nums)
-        {
-            int index = 0;
-            int counter = 0, max = 0;
-            for (int i = 0; i < nums.Length; i++)
-            {
-                for (int j = 0; j < nums.Length; j++)
-                {
-                    if (nums[i] == nums[j])
-                    counter++;
-                }
-                if(max<counter)
-                {
-                    max = counter;
-                    index = i;
-                }
-                counter = 0;
-            }
-
-            return nums[index]; 
-        }
-
         public static int[] PluseOne(int[] digits)
         {
             int i = digits.Length - 1;
@@ -329,22 +509,28 @@ namespace LeedCode
             }
             return digits;
         }
-
         public static int SearchInsert(int[] nums, int target)
         {
             int targetIndex = 0;
-            for (int i = 0; i < nums.Length; i++)
+            if (nums.Contains(target))
+                return nums.ToList().IndexOf(target);
+            else
             {
-                if (nums[i] <= target)
+                for (int i = 0; i < nums.Length; i++)
                 {
-                    targetIndex = i;
+                    if (nums[i] < target)
+                    {
+                        targetIndex = i+1;
+                        break;
+                    }
                     
                 }
+
+                return targetIndex;
             }
 
-            return targetIndex;
+            //return targetIndex;
         }
-
         public static long PowOn(int a)
         {
             long result = 1;
