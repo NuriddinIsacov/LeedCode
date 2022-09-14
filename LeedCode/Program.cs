@@ -9,23 +9,27 @@ namespace LeedCode
     {
         static void Main(string[] args) 
         {
-
-            int i = 2;
-            Console.WriteLine(i % 3 == 0 && i % 5 == 0);
+            string str = "hello";
+            var listVowels = new List<char> { 'a', 'o', 'u', 'e', 'i' };
+        //    Console.WriteLine(listVowels.ToString());
+            Console.WriteLine(RecursiveReverseString(str));
         }
 
 
-        public static string ReverseVowels(string s)
-        {
-            char[] charArray = s.ToCharArray();
-            int left = 0;
+        public static string ReverseVowels(string s)    
+        {    
+
+            var listVowels = new List<char>{'a', 'A', 'o', 'O', 'u', 'U', 'e', 'E', 'i', 'I'};
+
+            char[] charArray = s.ToCharArray();                       //     h e l l o 
+            int left = 0;                                                          //     0 1 2 3 4  
             int right = s.Length - 1;
 
             while (left < right)
             {
-                if((s[left] == 'a' || s[left] == 'u' || s[left] == 'e' || s[left] == 'o' || s[left] == 'i') && (s[right] == 'a' || s[right] == 'u' || s[right] == 'e' || s[right] == 'o' || s[right] == 'i'))
+                if(listVowels.Contains(charArray[left]) && (listVowels.Contains(charArray[right])))
                 {
-                    char c = s[left];
+                    char c = charArray[left];
 
                     c = charArray[left];
                     charArray[left] = charArray[right];
@@ -34,20 +38,85 @@ namespace LeedCode
                     left++;
                     right--;
                 }
+               
 
-                if ((s[left] == 'a' || s[left] == 'u' || s[left] == 'e' || s[left] == 'o' || s[left] == 'i') && !(s[right] == 'a' || s[right] == 'u' || s[right] == 'e' || s[right] == 'o' || s[right] == 'i'))
+                if(listVowels.Contains(charArray[left]) && !listVowels.Contains(charArray[right]))
+                    right--;
+                else
+
+                if (!listVowels.Contains(charArray[left]) && listVowels.Contains(charArray[right]))
                     left++;
 
-                if(!(s[left] == 'a' || s[left] == 'u' || s[left] == 'e' || s[left] == 'o' || s[left] == 'i') && (s[right] == 'a' || s[right] == 'u' || s[right] == 'e' || s[right] == 'o' || s[right] == 'i'))
+                if(!listVowels.Contains(charArray[left]) && !listVowels.Contains(charArray[right]))
+                {
+                    left++;
                     right--;
+                }
             }
 
-            return charArray.ToString();
+            string str = string.Empty;
+
+            foreach (var item in charArray)
+            {
+                str = str + item;
+            }
+
+            return str;
         }
 
 
+        public static void PrintLinkedList(ListNode node)
+        {
+            while (node.next is not null)
+            {
+                Console.WriteLine(node.val);
+                node = node.next;
+            }
+        }
+        public static ListNode MergeTwoLists(ListNode list1, ListNode list2)
+        {
+            var temp1 = list1;
+            var temp2 = list2;
+            var result = new ListNode();
+            while (temp1.next is not null || temp2.next is not null)
+            {
+                if (temp1.val < temp2.val)
+                {
+                    result = temp1;
+                    temp1 = temp1.next;
+
+                }
+                else
+                {
+                    result = temp2;
+                    temp2 = temp2.next;
+                }
+            }
+
+            while(temp1.next is not null)
+            {
+                result = temp1;
+                temp1 = temp1.next;
+            }
+
+            while(temp2.next is not null)
+            {
+                result = temp2;
+                temp2 = temp2.next;
+            }
+
+            return result;
+        }
 
 
+        public static string RecursiveReverseString(string str)
+        {
+            if (str.Length == 0)
+                return str;
+
+            var reversedStr = RecursiveReverseString(str.Substring(1));
+            return reversedStr + str[0];
+        }
         public static void ReverseString(char[] s)
         {
             int left = 0;
@@ -541,4 +610,17 @@ namespace LeedCode
             return result;
         }
     }
+
+
+    public class ListNode
+    {
+        public int val;
+        public ListNode next;
+        public ListNode(int value = 0, ListNode next = null)
+        {
+            this.val = val;
+            this.next = next;
+        }
+    }
+
 }
