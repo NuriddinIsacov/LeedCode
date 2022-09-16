@@ -9,10 +9,9 @@ namespace LeedCode
     {
         static void Main(string[] args) 
         {
-            string str = "hello";
-            var listVowels = new List<char> { 'a', 'o', 'u', 'e', 'i' };
-        //    Console.WriteLine(listVowels.ToString());
-            Console.WriteLine(RecursiveReverseString(str));
+
+            var node = new ListNode();
+            Console.WriteLine(node.next is null);
         }
 
 
@@ -75,37 +74,66 @@ namespace LeedCode
         }
         public static ListNode MergeTwoLists(ListNode list1, ListNode list2)
         {
-            var temp1 = list1;
-            var temp2 = list2;
             var result = new ListNode();
-            while (temp1.next is not null || temp2.next is not null)
+
+            if (list1 == null)
+                return list2;
+            else
             {
-                if (temp1.val < temp2.val)
+                if (list2 == null)
+                    return list1;
+            }
+
+
+            do
+            {
+                if (list1.val < list2.val)
                 {
-                    result = temp1;
-                    temp1 = temp1.next;
+                    SetResult(result, new ListNode(list1.val));
+                    if (list1.next != null)
+                        list1 = list1.next;
+                    else
+                    {
+                        SetResult(result, list2);
+                        result = result.next;
+                        return result;
+                    }
 
                 }
                 else
                 {
-                    result = temp2;
-                    temp2 = temp2.next;
+                    SetResult(result, new ListNode(list2.val));
+                    if (list2.next != null)
+                        list2 = list2.next;
+                    else
+                    {
+                        SetResult(result, list1);
+                        result = result.next;
+                        return result;
+                    }
+
                 }
             }
+            while (list1.next != null || list2.next != null);
 
-            while(temp1.next is not null)
-            {
-                result = temp1;
-                temp1 = temp1.next;
-            }
+            if (list1.next == null)
+                SetResult(result, list2);
 
-            while(temp2.next is not null)
-            {
-                result = temp2;
-                temp2 = temp2.next;
-            }
+            if (list2.next == null)
+                SetResult(result, list1);
+
+
+            result = result.next;
 
             return result;
+        }
+
+        public static void SetResult(ListNode result, ListNode newNode)
+        {
+            if (result.next == null)
+                result.next = newNode;
+            else
+                SetResult(result.next, newNode);
         }
 
 
