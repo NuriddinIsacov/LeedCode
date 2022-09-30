@@ -9,10 +9,17 @@ namespace LeedCode
     {
         static void Main(string[] args) 
         {
+            int[] numbers = { 1, 1, 3 };
 
-            var node = new ListNode();
-            Console.WriteLine(node.next is null);
+            var nums = PluseOne(numbers);
+
+            foreach (var item in nums)
+            {
+                Console.Write(item);
+            }
+
         }
+
 
 
         public static string ReverseVowels(string s)    
@@ -63,7 +70,7 @@ namespace LeedCode
             return str;
         }
 
-
+        #region Linked List funks
         public static void PrintLinkedList(ListNode node)
         {
             while (node.next is not null)
@@ -135,8 +142,23 @@ namespace LeedCode
             else
                 SetResult(result.next, newNode);
         }
+        #endregion
+        public static int RemoveDuplicates(int[] nums)
+        {
+            List<int> resultNums = new List<int> ();
 
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if(!resultNums.Contains(nums[i]))
+                    resultNums.Add(nums[i]);
+            }
 
+            resultNums.Sort();
+
+            nums = resultNums.ToArray();
+
+            return resultNums.Count;
+        }
         public static string RecursiveReverseString(string str)
         {
             if (str.Length == 0)
@@ -329,55 +351,13 @@ namespace LeedCode
         }
         public static string LongestCommonPrefix(string[] strs)
         {
+            if (strs.Length == 0)
+                return string.Empty;
+
             if (strs.Length == 1)
-            {
                 return strs[0];
-            }
 
-            string result = string.Empty;
-            string answer = string.Empty;
-            string prefix = strs[0];
-            bool check = true;
-            List<string> list = new List<string>();
-
-            foreach (var item in strs)
-            {
-                if (item.Length < prefix.Length)
-                {
-                    prefix = item;
-                }
-            }
-
-            for (int i = 0; i < prefix.Length; i++)
-            {
-                foreach (var item in strs)
-                {
-                    if (!item.Contains(prefix[i]))
-                    {
-                        check = false;
-                    }
-                }
-                if (check is true)
-                {
-                    result += prefix[i];
-                }
-                else
-                {
-                    if (answer.Length < result.Length)
-                    {
-                        answer = result;
-                    }
-                    list.Add(result);
-                    result = string.Empty;
-                }
-
-                check = true;
-            }
-
-
-          
-
-            return answer;
+            return new string("ksbcjhdsbc");
         }
         public static string WordPattern(string pattern, string s)
         {
@@ -582,29 +562,41 @@ namespace LeedCode
         }
         public static int[] PluseOne(int[] digits)
         {
-            int i = digits.Length - 1;
-
-            while (i >= 0)
+           return _PlusOne(digits, digits.Length - 1);
+        }
+        
+        public static int[] _PlusOne(int[] digits, int k)
+        {
+            if(digits.Length == 0)
             {
-                if (digits[i] == 9 && i == 0)
-                {
-                    int[] newDigits = new int[i + 2];
-                    newDigits[0] = 1;
-                    return newDigits;
-                }
+                if (digits[0] == 9)
+                    return new int[] { 1, 0 };
 
-                if (digits[i] == 9)
+                digits[0]++;
+
+                return digits;
+            }
+
+            if (digits[k] != 9)
+            {
+                digits[k]++;
+                return digits;
+            }
+            else
+            {
+                if (k == 0)
                 {
-                    digits[i] = 0;
-                    i--;
+                    digits[k] = 1;
+                    var numList = digits.ToList();
+                    numList.Add(0);
+                    return numList.ToArray();
                 }
                 else
                 {
-                    digits[i]++;
-                    return digits;
+                    digits[k] = 0;
+                    return _PlusOne(digits, --k);
                 }
             }
-            return digits;
         }
         public static int SearchInsert(int[] nums, int target)
         {
@@ -639,7 +631,7 @@ namespace LeedCode
         }
     }
 
-
+    #region Classes
     public class ListNode
     {
         public int val;
@@ -650,5 +642,5 @@ namespace LeedCode
             this.next = next;
         }
     }
-
+    #endregion
 }
