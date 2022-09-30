@@ -21,7 +21,23 @@ namespace LeedCode
         }
 
 
+        public static int[] Intersect(int[] nums1, int[] nums2)
+        {
+            var list1 = nums1.ToList();
+            var list2 = nums2.ToList();
+            List<int> list = new List<int>();
 
+            for (int i = 0; i < nums1.Length; i++)
+            {
+                if (list2.Contains(list1[i]))
+                {
+                    list.Add(list1[i]);
+                    list2.Remove(list1[i]);
+                }
+            }
+
+            return list.ToArray();
+        }
         public static string ReverseVowels(string s)    
         {    
 
@@ -564,7 +580,6 @@ namespace LeedCode
         {
            return _PlusOne(digits, digits.Length - 1);
         }
-        
         public static int[] _PlusOne(int[] digits, int k)
         {
             if(digits.Length == 0)
