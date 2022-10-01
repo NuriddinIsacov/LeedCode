@@ -9,18 +9,29 @@ namespace LeedCode
     {
         static void Main(string[] args) 
         {
-            int[] numbers = { 1, 1, 3 };
+            int[] num1 = { 1, 2, 3, 0, 0, 0};
+            int[] num2 = { 2, 5, 6 };
+            Merge(num1, 3, num2, 3);
 
-            var nums = PluseOne(numbers);
-
-            foreach (var item in nums)
+            foreach (var item in num1)
             {
-                Console.Write(item);
+                Console.WriteLine(item);
             }
-
         }
 
 
+        public static void Merge(int[] nums1, int m, int[] nums2, int n)
+        {
+            List<int> list = new List<int>();
+            int j = 0;
+            for (int i = m; i < m + n; i++)
+            {
+                nums1[i] = nums2[j];
+                j++;
+            }
+
+            Array.Sort(nums1);
+        }
         public static int[] Intersect(int[] nums1, int[] nums2)
         {
             var list1 = nums1.ToList();
