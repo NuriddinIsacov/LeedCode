@@ -9,17 +9,73 @@ namespace LeedCode
     {
         static void Main(string[] args) 
         {
-            int[] num1 = { 1, 2, 3, 0, 0, 0};
-            int[] num2 = { 2, 5, 6 };
-            Merge(num1, 3, num2, 3);
+            int[] nums = { 2, 2, 3, 2 };
 
-            foreach (var item in num1)
-            {
-                Console.WriteLine(item);
-            }
+            Console.WriteLine(SingleNumberTwo(nums));
         }
 
 
+        #region Leetcode
+
+        public static int[]  SingleNumbersThree(int[] nums)
+        {
+            List<int> k = new List<int>();
+
+            foreach (var item in nums)
+            {
+                var list = nums.ToList();
+                list.Remove(item);
+
+                if (!list.Contains(item))
+                    k.Add(item);
+            }
+            return k.ToArray();
+        }
+        public static int SingleNumberTwo(int[] nums)
+        {
+            int k = 0;
+            foreach (var item in nums)
+            {
+                var list = nums.ToList();
+                list.Remove(item);
+
+                if (!list.Contains(item))
+                    k  = item;
+            }
+            return k;
+        }
+        public static ListNode AddTwoNumbers(ListNode l1, ListNode l2)
+        {
+            int num1 = 0;
+            int num2 = 0;
+
+            while(l1.next != null)
+            {
+                num1 = num1 + l1.val;
+                l1 = l1.next;
+            }
+
+            while (l2.next != null)
+            {
+                num2 = num2 + l2.val;
+                l2 = l2.next;
+            }
+
+            var num = num1 + num2;
+            var list = new ListNode();
+            while (num >= 0)
+            {
+                if (list.next == null)
+                {
+                    list.next = new ListNode(num % 10);
+                    num = num / 10;
+                }
+
+                list = list.next;
+            }
+
+            return list;
+        }
         public static void Merge(int[] nums1, int m, int[] nums2, int n)
         {
             List<int> list = new List<int>();
@@ -161,7 +217,13 @@ namespace LeedCode
 
             return result;
         }
-
+        public static void SetLinkedList(int val, ListNode node)
+        {
+            if (node.next != null)
+                SetLinkedList(val, node.next);
+            else
+                node.next = new ListNode(val);
+        }
         public static void SetResult(ListNode result, ListNode newNode)
         {
             if (result.next == null)
@@ -655,6 +717,27 @@ namespace LeedCode
             }
             return result;
         }
+
+        /// <summary>
+        ///  Sortlangan LinkedListdan duplikat elementlarni o'chirib tashlaydi
+        /// </summary>
+        public static ListNode DeleteDuplicates(ListNode head)
+        {
+            if (head == null || head.next == null)
+                return head;
+
+            if (head.val == head.next.val)
+            {
+                head.next = head.next.next;
+                head.next = DeleteDuplicates(head.next);
+            }
+            else
+            {
+                head.next = DeleteDuplicates(head.next);
+            }
+    
+            return head;
+        }
     }
 
     #region Classes
@@ -668,5 +751,7 @@ namespace LeedCode
             this.next = next;
         }
     }
+    #endregion
+
     #endregion
 }
