@@ -17,6 +17,28 @@ namespace LeedCode
 
         #region Leetcode
 
+        public static ListNode MiddleNode(ListNode head)
+        {
+            List<ListNode> list = new List<ListNode>();
+            int counter = 0;
+
+            if (head.next == null)
+                return head;
+
+
+            while (head.next != null)
+            {
+                list.Add(head);
+                head = head.next;
+                counter++;
+            }
+            counter++;
+            list.Add(head);
+
+
+            return list[counter / 2];
+
+        }
         public static int[]  SingleNumbersThree(int[] nums)
         {
             List<int> k = new List<int>();
